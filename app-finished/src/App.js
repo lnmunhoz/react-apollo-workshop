@@ -5,7 +5,7 @@ import { Query } from "react-apollo";
 import Loader from "./components/Loader";
 import Repository from "./components/Repository";
 import SearchBar from "./components/SearchBar";
-import Layout from "./Layout";
+import Layout from "./components/Layout";
 
 export const RepositoryFields = gql`
   fragment RepositoryFields on Repository {
