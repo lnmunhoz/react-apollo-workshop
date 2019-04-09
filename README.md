@@ -53,10 +53,10 @@ Fork and clone this repository
 git clone https://github.com/${you}/react-apollo-workshop
 ```
 
-Navigate to the created folder
+Navigate to the `app-starter` folder
 
 ```
-cd react-apollo-workshop
+cd react-apollo-workshop/app-starter
 ```
 
 Install dependencies
