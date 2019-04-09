@@ -1,25 +1,40 @@
-## Goals
+## Goal
 
-Integrate our frontend with a real world GraphQL server!
+Learn the the fundamentals of how to integrate a React application with real world GraphQL API's.
 
-## Requirements
+## ⛏️ What we are going to build?
 
-- Git
-- Npm
-- Your favorite IDE (VSCode)
-- Github Account
+An applications where the user can:
 
-## Intro
+- Search for github repositories
+- See the number of stars, avatar and owner of the repositories
+- Star and Unstar repositories
 
-### Why Apollo
+![preview.png](https://github.com/lnmunhoz/react-apollo-workshop/blob/master/assets/preview.png?raw=true)
 
-Apollo Client is the best way to use GraphQL to build client applications. The client is designed to help you quickly build a UI that fetches data with GraphQL, and can be used with any JavaScript front-end.
+## 🔮 What I am going to learn?
 
-### React
+- How to setup the Apollo Client to make requests to the Github API
+- How to use the `react-apollo` library to send queries and mutations
+- How the `Apollo Cache` works and how to visualize it's data
+- How to update the cache after we get a responses from API calls
+- How we use optimistic updates to improve user experience
 
-### Github GraphQL API
+## 💻 Requirements
 
-GitHub chose GraphQL for our API v4 because it offers significantly more flexibility for our integrators. The ability to define precisely the data you want—and only the data you want—is a powerful advantage over the REST API v3 endpoints. GraphQL lets you replace multiple REST requests with a single call to fetch the data you specify.
+- [Git](https://git-scm.com/downloads)
+- [Npm](https://nodejs.org/en/download/)
+- [Github Account](https://github.com/join)
+
+## 👍 Nice to have
+
+- [VSCode](https://code.visualstudio.com/)
+- [Apollo Client Developer Tools](https://chrome.google.com/webstore/detail/apollo-client-developer-t/jdkknkkbebbapilgoeccciglkfbmbnfm)
+
+### ⚙️ Extensions for VSCode
+
+- [Prettier](https://marketplace.visualstudio.com/itemdetails?itemName=esbenp.prettier-vscode)
+- [Apollo GraphQL Extension](https://marketplace.visualstudio.com/itemdetails?itemName=apollographql.vscode-apollo)
 
 ## 🏁 Get Started
 
@@ -37,12 +52,14 @@ Navigate to the created folder
 cd react-apollo-workshop
 ```
 
-## Setting up Apollo
+Install dependencies
 
 ```
-npm install --save react-apollo apollo-boost graphql
+npm install
 ```
 
-## Bonus
+Start the app
 
-- Autocomplete VSCode GraphQL?
+```
+npm start
+```

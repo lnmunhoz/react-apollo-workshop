@@ -9,11 +9,13 @@ import { ApolloProvider } from "react-apollo";
 
 // 2. Create a new apollo client
 const client = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    dataIdFromObject: object => object.id
+  }),
   link: new HttpLink({
     uri: "https://api.github.com/graphql",
     headers: {
-      authorization: "Bearer e92dd5da656aa917742135650cb866376558199f"
+      authorization: "Bearer 54d31fa09b796e1328ed1c55f492e5a9a8c93cb1"
     }
   })
 });

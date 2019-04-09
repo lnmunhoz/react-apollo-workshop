@@ -1,22 +1,11 @@
-import React, { useCallback, useState } from "react";
-import Layout from "./Layout";
-import { Query } from "react-apollo";
+import { List } from "@material-ui/core";
 import { gql } from "apollo-boost";
-import {
-  ListItem,
-  ListItemAvatar,
-  Avatar,
-  Typography,
-  List,
-  ListItemText,
-  ListItemSecondaryAction,
-  Chip,
-  CircularProgress,
-  Paper
-} from "@material-ui/core";
-import SearchBar from "./ui/SearchBar";
-import Repository from "./ui/Repository";
-import Loading from "./ui/Loading";
+import React, { useState } from "react";
+import { Query } from "react-apollo";
+import Loader from "./components/Loader";
+import Repository from "./components/Repository";
+import SearchBar from "./components/SearchBar";
+import Layout from "./Layout";
 
 const MY_QUERY = gql`
   query {
@@ -26,14 +15,29 @@ const MY_QUERY = gql`
   }
 `;
 
-const MyUsername = () => (
-  <Query query={MY_QUERY}>
-    {({ data, loading }) => {
-      if (loading) return <p>Loading...</p>;
-      return <p>{data.viewer.login}</p>;
-    }}
-  </Query>
-);
+// const MyUsername = () => (
+//   <Query query={MY_QUERY}>
+//     {({ data, loading }) => {
+//       if (loading) return <p>Loading...</p>;
+//       return <p>{data.viewer.login}</p>;
+//     }}
+//   </Query>
+// );
+
+export const RepositoryFields = gql`
+  fragment RepositoryFields on Repository {
+    id
+    name
+    viewerHasStarred
+    stargazers {
+      totalCount
+    }
+    owner {
+      avatarUrl
+      login
+    }
+  }
+`;
 
 const SearchRepos = ({ searchText }) => (
   <Query
@@ -46,30 +50,22 @@ const SearchRepos = ({ searchText }) => (
           nodes {
             __typename
             ... on Repository {
-              id
-              name
-              viewerHasStarred
-              stargazers {
-                totalCount
-              }
-              owner {
-                avatarUrl
-                login
-              }
+              ...RepositoryFields
             }
           }
         }
       }
+      ${RepositoryFields}
     `}
   >
     {({ data, loading, error }) => {
-      if (loading) return <Loading />;
+      if (loading) return <Loader />;
       if (error) return <p>{error.message}</p>;
 
       return (
-        <List>
+        <List style={{ padding: 20 }}>
           {data.search.nodes.map(repo => (
-            <Repository repo={repo} />
+            <Repository key={repo.id} repo={repo} />
           ))}
         </List>
       );
@@ -86,8 +82,6 @@ function App() {
       <SearchBar
         searchText={searchText}
         onSearch={text => setSearchText(text)}
-        onSearchFocus={() => setIsSearching(true)}
-        onSearchBlur={() => setIsSearching(false)}
       />
 
       <SearchRepos searchText={searchText} />

@@ -1,14 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
-import { fade } from "@material-ui/core/styles/colorManipulator";
 import { withStyles } from "@material-ui/core/styles";
-import MenuIcon from "@material-ui/icons/Menu";
+import { fade } from "@material-ui/core/styles/colorManipulator";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
 import SearchIcon from "@material-ui/icons/Search";
+import React from "react";
 
 const styles = theme => ({
   root: {
@@ -70,24 +67,11 @@ const styles = theme => ({
   }
 });
 
-function SearchAppBar({
-  classes,
-  onSearch,
-  onSearchFocus,
-  onSearchBlur,
-  searchText
-}) {
+function SearchAppBar({ classes, onSearch, searchText }) {
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          {/* <IconButton
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="Open drawer"
-          >
-            <MenuIcon />
-          </IconButton> */}
           <Typography
             className={classes.title}
             variant="h6"
@@ -105,8 +89,6 @@ function SearchAppBar({
               placeholder="Search repos..."
               value={searchText}
               onChange={event => onSearch(event.target.value)}
-              onFocus={event => onSearchFocus()}
-              onBlur={event => onSearchBlur()}
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput
@@ -118,9 +100,5 @@ function SearchAppBar({
     </div>
   );
 }
-
-SearchAppBar.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(SearchAppBar);
