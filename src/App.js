@@ -69,7 +69,7 @@ const SearchRepos = ({ searchText }) => (
       return (
         <List>
           {data.search.nodes.map(repo => (
-            <Repository {...repo} />
+            <Repository repo={repo} />
           ))}
         </List>
       );
