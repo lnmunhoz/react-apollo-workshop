@@ -1,3 +1,10 @@
+# react-apollo-workshop
+
+Official Workshop for the [GraphQL Asia](http://graphql-asia.org) conference.
+
+<a href="https://github.com/lnmunhhoz/react-apollo-workshop/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+<a href="https://github.com/lnmunhoz/react-apollo-workshop/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"></a>
+
 ## Goal
 
 Learn the the fundamentals of how to integrate a React application with real world GraphQL API's.
@@ -10,7 +17,7 @@ An applications where the user can:
 - See the number of stars, avatar and owner of the repositories
 - Star and Unstar repositories
 
-![preview.png](https://github.com/lnmunhoz/react-apollo-workshop/blob/master/assets/preview.png?raw=true)
+<img alt="application preview" src="https://github.com/lnmunhoz/react-apollo-workshop/blob/master/assets/preview.png?raw=true" style="max-width: 500px;"/>
 
 ## 🔮 What I am going to learn?
 
@@ -63,3 +70,7 @@ Start the app
 ```
 npm start
 ```
+
+## License
+
+MIT

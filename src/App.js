@@ -7,23 +7,6 @@ import Repository from "./components/Repository";
 import SearchBar from "./components/SearchBar";
 import Layout from "./Layout";
 
-const MY_QUERY = gql`
-  query {
-    viewer {
-      login
-    }
-  }
-`;
-
-// const MyUsername = () => (
-//   <Query query={MY_QUERY}>
-//     {({ data, loading }) => {
-//       if (loading) return <p>Loading...</p>;
-//       return <p>{data.viewer.login}</p>;
-//     }}
-//   </Query>
-// );
-
 export const RepositoryFields = gql`
   fragment RepositoryFields on Repository {
     id
@@ -75,7 +58,6 @@ const SearchRepos = ({ searchText }) => (
 
 function App() {
   const [searchText, setSearchText] = useState("react");
-  const [isSearching, setIsSearching] = useState(false);
 
   return (
     <Layout>
