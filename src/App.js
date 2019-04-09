@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import Layout from "./Layout";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
@@ -8,34 +8,20 @@ import {
   Avatar,
   Typography,
   List,
-  ListItemText
+  ListItemText,
+  ListItemSecondaryAction,
+  Chip,
+  CircularProgress,
+  Paper
 } from "@material-ui/core";
+import SearchBar from "./ui/SearchBar";
+import Repository from "./ui/Repository";
+import Loading from "./ui/Loading";
 
 const MY_QUERY = gql`
   query {
     viewer {
       login
-    }
-  }
-`;
-
-const GET_REPOSITORY = gql`
-  query {
-    repository(owner: "lnmunhoz", name: "react-apollo-workshop") {
-      id
-      name
-      issues(first: 10) {
-        nodes {
-          id
-          title
-          bodyText
-          closed
-          author {
-            login
-            avatarUrl
-          }
-        }
-      }
     }
   }
 `;
@@ -49,32 +35,41 @@ const MyUsername = () => (
   </Query>
 );
 
-const Repository = () => (
-  <Query query={GET_REPOSITORY}>
-    {({ data, loading }) => {
-      if (loading) return <p>Loading...</p>;
-
-      const repository = data.repository;
-      const issues = repository.issues.nodes;
+const SearchRepos = ({ searchText }) => (
+  <Query
+    variables={{
+      query: searchText
+    }}
+    query={gql`
+      query SearchRepos($query: String!) {
+        search(first: 10, type: REPOSITORY, query: $query) {
+          nodes {
+            __typename
+            ... on Repository {
+              id
+              name
+              viewerHasStarred
+              stargazers {
+                totalCount
+              }
+              owner {
+                avatarUrl
+                login
+              }
+            }
+          }
+        }
+      }
+    `}
+  >
+    {({ data, loading, error }) => {
+      if (loading) return <Loading />;
+      if (error) return <p>{error.message}</p>;
 
       return (
         <List>
-          {issues.map(issue => (
-            <ListItem alignItems="flex-start" key={issue.id}>
-              <ListItemAvatar>
-                <Avatar alt="Remy Sharp" src={issue.author.avatarUrl} />
-              </ListItemAvatar>
-              <ListItemText
-                primary={issue.title}
-                secondary={
-                  <React.Fragment>
-                    <Typography component="span" color="textPrimary">
-                      {issue.bodyText}
-                    </Typography>
-                  </React.Fragment>
-                }
-              />
-            </ListItem>
+          {data.search.nodes.map(repo => (
+            <Repository {...repo} />
           ))}
         </List>
       );
@@ -83,9 +78,19 @@ const Repository = () => (
 );
 
 function App() {
+  const [searchText, setSearchText] = useState("react");
+  const [isSearching, setIsSearching] = useState(false);
+
   return (
     <Layout>
-      <Repository />
+      <SearchBar
+        searchText={searchText}
+        onSearch={text => setSearchText(text)}
+        onSearchFocus={() => setIsSearching(true)}
+        onSearchBlur={() => setIsSearching(false)}
+      />
+
+      <SearchRepos searchText={searchText} />
     </Layout>
   );
 }

@@ -49,16 +49,17 @@ class App extends React.Component {
     return (
       <React.Fragment>
         <CssBaseline />
-        <AppBar position="static">
+        {children}
+        {/* <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" color="inherit" flex>
               React + GraphQL Workshop
             </Typography>
           </Toolbar>
-        </AppBar>
-        <main className={classes.layout}>
-          <Paper className={classes.paper}>{children}</Paper>
-        </main>
+        </AppBar> */}
+        {/* <main className={classes.layout}> */}
+        {/* <Paper className={classes.paper}>{children}</Paper> */}
+        {/* </main> */}
       </React.Fragment>
     );
   }
