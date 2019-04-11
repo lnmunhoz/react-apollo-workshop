@@ -10,11 +10,7 @@ import {
 import Stars from "@material-ui/icons/Stars";
 import React from "react";
 import { Mutation } from "react-apollo";
-import {
-  ADD_STAR_MUTATION,
-  REMOVE_STAR_MUTATION,
-  REPOSITORY_FIELDS
-} from "../graphql";
+import { ADD_STAR_MUTATION, REMOVE_STAR_MUTATION } from "../graphql";
 
 const StarRepo = ({ repoId, starsCount }) => (
   <Mutation mutation={ADD_STAR_MUTATION}>
