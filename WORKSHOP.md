@@ -303,7 +303,7 @@ export default function Repository({ repo }) {
 }
 ```
 
-### 8. Adding Optimistic Response
+### 8. Adding Optimistic Responses
 
 ```jsx
 import {
@@ -462,3 +462,7 @@ export default function Repository({ repo }) {
   );
 }
 ```
+
+### 9 Hooks?
+
+If we have time :)
