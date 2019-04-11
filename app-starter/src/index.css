@@ -37,10 +37,15 @@ code {
 .app-starter img {
   width: 200px;
   height: 200px;
+  border-radius: 50%;
 }
 
 .app-starter p {
   font-style: italic;
   color: blue;
   font-size: 20px;
+}
+
+.MuiListItem-container-121 {
+  list-style: none;
 }
