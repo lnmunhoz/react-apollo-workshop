@@ -1,45 +1,18 @@
 import { List } from "@material-ui/core";
-import { gql } from "apollo-boost";
 import React, { useState } from "react";
 import { Query } from "react-apollo";
+import Layout from "./components/Layout";
 import Loader from "./components/Loader";
 import Repository from "./components/Repository";
 import SearchBar from "./components/SearchBar";
-import Layout from "./components/Layout";
-
-export const RepositoryFields = gql`
-  fragment RepositoryFields on Repository {
-    id
-    name
-    viewerHasStarred
-    stargazers {
-      totalCount
-    }
-    owner {
-      avatarUrl
-      login
-    }
-  }
-`;
+import { SEARCH_QUERY } from "./graphql";
 
 const SearchRepos = ({ searchText }) => (
   <Query
     variables={{
       query: searchText
     }}
-    query={gql`
-      query SearchRepos($query: String!) {
-        search(first: 10, type: REPOSITORY, query: $query) {
-          nodes {
-            __typename
-            ... on Repository {
-              ...RepositoryFields
-            }
-          }
-        }
-      }
-      ${RepositoryFields}
-    `}
+    query={SEARCH_QUERY}
   >
     {({ data, loading, error }) => {
       if (loading) return <Loader />;

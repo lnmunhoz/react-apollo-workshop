@@ -8,24 +8,16 @@ import {
   Typography
 } from "@material-ui/core";
 import Stars from "@material-ui/icons/Stars";
-import { gql } from "apollo-boost";
 import React from "react";
 import { Mutation } from "react-apollo";
-import { RepositoryFields } from "../App";
+import {
+  ADD_STAR_MUTATION,
+  REMOVE_STAR_MUTATION,
+  REPOSITORY_FIELDS
+} from "../graphql";
 
 const StarRepo = ({ repoId, starsCount }) => (
-  <Mutation
-    mutation={gql`
-      mutation StarRepo($repoId: ID!) {
-        addStar(input: { starrableId: $repoId }) {
-          starrable {
-            id
-            viewerHasStarred
-          }
-        }
-      }
-    `}
-  >
+  <Mutation mutation={ADD_STAR_MUTATION}>
     {(starRepoFn, result) => (
       <Chip
         label={`Star  ${starsCount}`}
@@ -37,7 +29,7 @@ const StarRepo = ({ repoId, starsCount }) => (
             update: (cache, { data }) => {
               cache.writeFragment({
                 id: repoId,
-                fragment: RepositoryFields,
+                fragment: REPOSITORY_FIELDS,
                 data: data.addStar.starrable
               });
             },
@@ -62,18 +54,7 @@ const StarRepo = ({ repoId, starsCount }) => (
 );
 
 const UnstarRepo = ({ repoId, starsCount }) => (
-  <Mutation
-    mutation={gql`
-      mutation StarRepo($repoId: ID!) {
-        removeStar(input: { starrableId: $repoId }) {
-          starrable {
-            id
-            viewerHasStarred
-          }
-        }
-      }
-    `}
-  >
+  <Mutation mutation={REMOVE_STAR_MUTATION}>
     {(unstarRepo, result) => (
       <Chip
         label={`Unstar  ${starsCount}`}
@@ -85,7 +66,7 @@ const UnstarRepo = ({ repoId, starsCount }) => (
               console.log(data);
               cache.writeFragment({
                 id: repoId,
-                fragment: RepositoryFields,
+                fragment: REPOSITORY_FIELDS,
                 data: data.removeStar.starrable
               });
             },

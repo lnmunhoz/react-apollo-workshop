@@ -3,11 +3,9 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-// 1. Import apollo-boost and react-apollo
 import { ApolloClient, HttpLink, InMemoryCache } from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 
-// 2. Create a new apollo client
 const client = new ApolloClient({
   cache: new InMemoryCache({
     dataIdFromObject: object => object.id
@@ -15,7 +13,7 @@ const client = new ApolloClient({
   link: new HttpLink({
     uri: "https://api.github.com/graphql",
     headers: {
-      authorization: "Bearer 54d31fa09b796e1328ed1c55f492e5a9a8c93cb1"
+      authorization: "Bearer a1afc581c519350fbddeefaa1ae36ca64a30235c"
     }
   })
 });
