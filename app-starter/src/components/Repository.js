@@ -28,7 +28,11 @@ export default function Repository({ repo }) {
           }
         />
         <ListItemSecondaryAction>
-          <Chip label={"Stars 0"} clickable icon={<Stars />} />
+          <Chip
+            label={"Stars " + repo.stargazers.totalCount}
+            clickable
+            icon={<Stars />}
+          />
         </ListItemSecondaryAction>
       </ListItem>
     </React.Fragment>
