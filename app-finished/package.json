@@ -9,6 +9,7 @@
     "graphql": "^14.2.1",
     "react": "^16.8.6",
     "react-apollo": "^2.5.4",
+    "react-apollo-hooks": "^0.4.5",
     "react-dom": "^16.8.6",
     "react-scripts": "2.1.8"
   },

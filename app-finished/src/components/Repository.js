@@ -9,81 +9,58 @@ import {
 } from "@material-ui/core";
 import Stars from "@material-ui/icons/Stars";
 import React from "react";
-import { Mutation } from "react-apollo";
-import {
-  ADD_STAR_MUTATION,
-  REMOVE_STAR_MUTATION,
-  REPOSITORY_FIELDS
-} from "../graphql";
-
-const StarRepo = ({ repoId, starsCount }) => (
-  <Mutation mutation={ADD_STAR_MUTATION}>
-    {(starRepoFn, result) => (
-      <Chip
-        label={`Star  ${starsCount}`}
-        clickable
-        color="primary"
-        icon={<Stars />}
-        onClick={async () => {
-          await starRepoFn({
-            optimisticResponse: {
-              addStar: {
-                __typename: "AddStarPayload",
-                starrable: {
-                  __typename: "Repository",
-                  id: repoId,
-                  viewerHasStarred: true,
-                  stargazers: {
-                    __typename: "StargazerConnection",
-                    totalCount: starsCount + 1
-                  }
-                }
-              }
-            },
-            variables: {
-              repoId
-            }
-          });
-        }}
-      />
-    )}
-  </Mutation>
-);
-
-const UnstarRepo = ({ repoId, starsCount }) => (
-  <Mutation mutation={REMOVE_STAR_MUTATION}>
-    {(unstarRepo, result) => (
-      <Chip
-        label={`Unstar  ${starsCount}`}
-        clickable
-        icon={<Stars />}
-        onClick={async () => {
-          await unstarRepo({
-            optimisticResponse: {
-              removeStar: {
-                __typename: "RemoveStarPayload",
-                starrable: {
-                  id: repoId,
-                  viewerHasStarred: false,
-                  stargazers: {
-                    __typename: "StargazerConnection",
-                    totalCount: starsCount - 1
-                  },
-                  __typename: "Repository"
-                }
-              }
-            },
-            variables: {
-              repoId
-            }
-          });
-        }}
-      />
-    )}
-  </Mutation>
-);
+import { useMutation } from "react-apollo-hooks";
+import { ADD_STAR_MUTATION, REMOVE_STAR_MUTATION } from "../graphql";
 
 export default function Repository({ repo }) {
+  const addStar = useMutation(ADD_STAR_MUTATION, {
+    variables: {
+      repoId: repo.id
+    },
+    optimisticResponse: {
+      addStar: {
+        __typename: "AddStarPayload",
+        starrable: {
+          __typename: "Repository",
+          id: repo.id,
+          viewerHasStarred: true,
+          stargazers: {
+            __typename: "StargazerConnection",
+            totalCount: repo.stargazers.totalCount + 1
+          }
+        }
+      }
+    }
+  });
+
+  const removeStar = useMutation(REMOVE_STAR_MUTATION, {
+    variables: {
+      repoId: repo.id
+    },
+    optimisticResponse: {
+      removeStar: {
+        __typename: "RemoveStarPayload",
+        starrable: {
+          id: repo.id,
+          viewerHasStarred: false,
+          stargazers: {
+            __typename: "StargazerConnection",
+            totalCount: repo.stargazers.totalCount - 1
+          },
+          __typename: "Repository"
+        }
+      }
+    }
+  });
+
+  const starredProps = {
+    label: repo.viewerHasStarred
+      ? `Unstar ${repo.stargazers.totalCount}`
+      : `Star ${repo.stargazers.totalCount}`,
+    onClick: repo.viewerHasStarred ? removeStar : addStar,
+    color: repo.viewerHasStarred ? "default" : "primary"
+  };
+
   return (
     <React.Fragment>
       <ListItem alignItems="flex-start">
@@ -101,17 +78,7 @@ export default function Repository({ repo }) {
           }
         />
         <ListItemSecondaryAction>
-          {!repo.viewerHasStarred ? (
-            <StarRepo
-              repoId={repo.id}
-              starsCount={repo.stargazers.totalCount}
-            />
-          ) : (
-            <UnstarRepo
-              repoId={repo.id}
-              starsCount={repo.stargazers.totalCount}
-            />
-          )}
+          <Chip clickable icon={<Stars />} {...starredProps} />
         </ListItemSecondaryAction>
       </ListItem>
     </React.Fragment>

@@ -1,33 +1,30 @@
 import { List } from "@material-ui/core";
 import React, { useState } from "react";
-import { Query } from "react-apollo";
+import { useQuery } from "react-apollo-hooks";
 import Layout from "./components/Layout";
 import Loader from "./components/Loader";
 import Repository from "./components/Repository";
 import SearchBar from "./components/SearchBar";
 import { SEARCH_QUERY } from "./graphql";
 
-const SearchRepos = ({ searchText }) => (
-  <Query
-    variables={{
+const SearchRepos = ({ searchText }) => {
+  const { data, loading, error } = useQuery(SEARCH_QUERY, {
+    variables: {
       query: searchText
-    }}
-    query={SEARCH_QUERY}
-  >
-    {({ data, loading, error }) => {
-      if (loading) return <Loader />;
-      if (error) return <p>{error.message}</p>;
+    }
+  });
 
-      return (
-        <List style={{ padding: 20 }}>
-          {data.search.nodes.map(repo => (
-            <Repository key={repo.id} repo={repo} />
-          ))}
-        </List>
-      );
-    }}
-  </Query>
-);
+  if (loading) return <Loader />;
+  if (error) return <p>{error.message}</p>;
+
+  return (
+    <List style={{ padding: 20 }}>
+      {data.search.nodes.map(repo => (
+        <Repository key={repo.id} repo={repo} />
+      ))}
+    </List>
+  );
+};
 
 function App() {
   const [searchText, setSearchText] = useState("react");
