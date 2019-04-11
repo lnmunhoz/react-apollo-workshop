@@ -331,7 +331,11 @@ function StarRepo({ repoId, totalCount }) {
           starrable: {
             __typename: "Repository",
             id: repoId,
-            viewerHasStarred: true
+            viewerHasStarred: true,
+            stargazers: {
+              __typename: "StargazerConnection",
+              totalCount: totalCount + 1
+            }
           },
           __typename: "AddStarPayload"
         }
@@ -343,6 +347,9 @@ function StarRepo({ repoId, totalCount }) {
               __typename
               id
               viewerHasStarred
+              stargazers {
+                totalCount
+              }
             }
           }
         }
@@ -378,7 +385,11 @@ function UnstarRepo({ repoId, totalCount }) {
           starrable: {
             __typename: "Repository",
             id: repoId,
-            viewerHasStarred: false
+            viewerHasStarred: false,
+            stargazers: {
+              __typename: "StargazerConnection",
+              totalCount: totalCount - 1
+            }
           },
           __typename: "RemoveStarPayload"
         }
@@ -390,6 +401,9 @@ function UnstarRepo({ repoId, totalCount }) {
               __typename
               id
               viewerHasStarred
+              stargazers {
+                totalCount
+              }
             }
           }
         }
