@@ -1,0 +1,159 @@
+{
+  "data": {
+    "search": {
+      "nodes": [
+        {
+          "__typename": "Repository",
+          "id": "MDEwOlJlcG9zaXRvcnkxMDI3MDI1MA==",
+          "name": "react",
+          "viewerHasStarred": false,
+          "stargazers": {
+            "totalCount": 126791,
+            "__typename": "StargazerConnection"
+          },
+          "owner": {
+            "avatarUrl": "https://avatars3.githubusercontent.com/u/69631?v=4",
+            "login": "facebook",
+            "__typename": "Organization"
+          }
+        },
+        {
+          "__typename": "Repository",
+          "id": "MDEwOlJlcG9zaXRvcnk0Mjg3OTIx",
+          "name": "react",
+          "viewerHasStarred": false,
+          "stargazers": {
+            "totalCount": 6789,
+            "__typename": "StargazerConnection"
+          },
+          "owner": {
+            "avatarUrl": "https://avatars2.githubusercontent.com/u/1696866?v=4",
+            "login": "reactphp",
+            "__typename": "Organization"
+          }
+        },
+        {
+          "__typename": "Repository",
+          "id": "MDEwOlJlcG9zaXRvcnk3NTM5NjU3NQ==",
+          "name": "react",
+          "viewerHasStarred": false,
+          "stargazers": {
+            "totalCount": 2590,
+            "__typename": "StargazerConnection"
+          },
+          "owner": {
+            "avatarUrl": "https://avatars1.githubusercontent.com/u/3249653?v=4",
+            "login": "duxianwei520",
+            "__typename": "User"
+          }
+        },
+        {
+          "__typename": "Repository",
+          "id": "MDEwOlJlcG9zaXRvcnk5MDc1OTkzMA==",
+          "name": "react",
+          "viewerHasStarred": false,
+          "stargazers": {
+            "totalCount": 796,
+            "__typename": "StargazerConnection"
+          },
+          "owner": {
+            "avatarUrl": "https://avatars0.githubusercontent.com/u/4507101?v=4",
+            "login": "discountry",
+            "__typename": "User"
+          }
+        },
+        {
+          "__typename": "Repository",
+          "id": "MDEwOlJlcG9zaXRvcnk3MjYyODI4NQ==",
+          "name": "react",
+          "viewerHasStarred": false,
+          "stargazers": {
+            "totalCount": 490,
+            "__typename": "StargazerConnection"
+          },
+          "owner": {
+            "avatarUrl": "https://avatars0.githubusercontent.com/u/20653643?v=4",
+            "login": "Cathy0807",
+            "__typename": "User"
+          }
+        },
+        {
+          "__typename": "Repository",
+          "id": "MDEwOlJlcG9zaXRvcnk3NzUxMzQxOQ==",
+          "name": "react",
+          "viewerHasStarred": false,
+          "stargazers": {
+            "totalCount": 490,
+            "__typename": "StargazerConnection"
+          },
+          "owner": {
+            "avatarUrl": "https://avatars3.githubusercontent.com/u/24805142?v=4",
+            "login": "react-redux-antd-es6",
+            "__typename": "Organization"
+          }
+        },
+        {
+          "__typename": "Repository",
+          "id": "MDEwOlJlcG9zaXRvcnkzNjA2NjI0",
+          "name": "ReactiveCocoa",
+          "viewerHasStarred": false,
+          "stargazers": {
+            "totalCount": 19443,
+            "__typename": "StargazerConnection"
+          },
+          "owner": {
+            "avatarUrl": "https://avatars0.githubusercontent.com/u/3422977?v=4",
+            "login": "ReactiveCocoa",
+            "__typename": "Organization"
+          }
+        },
+        {
+          "__typename": "Repository",
+          "id": "MDEwOlJlcG9zaXRvcnkyOTAyODc3NQ==",
+          "name": "react-native",
+          "viewerHasStarred": true,
+          "stargazers": {
+            "totalCount": 75960,
+            "__typename": "StargazerConnection"
+          },
+          "owner": {
+            "avatarUrl": "https://avatars3.githubusercontent.com/u/69631?v=4",
+            "login": "facebook",
+            "__typename": "Organization"
+          }
+        },
+        {
+          "__typename": "Repository",
+          "id": "MDEwOlJlcG9zaXRvcnkxOTg3MjQ1Ng==",
+          "name": "react-router",
+          "viewerHasStarred": false,
+          "stargazers": {
+            "totalCount": 35743,
+            "__typename": "StargazerConnection"
+          },
+          "owner": {
+            "avatarUrl": "https://avatars1.githubusercontent.com/u/11823761?v=4",
+            "login": "ReactTraining",
+            "__typename": "Organization"
+          }
+        },
+        {
+          "__typename": "Repository",
+          "id": "MDEwOlJlcG9zaXRvcnk2MzUzNzI0OQ==",
+          "name": "create-react-app",
+          "viewerHasStarred": false,
+          "stargazers": {
+            "totalCount": 66101,
+            "__typename": "StargazerConnection"
+          },
+          "owner": {
+            "avatarUrl": "https://avatars3.githubusercontent.com/u/69631?v=4",
+            "login": "facebook",
+            "__typename": "Organization"
+          }
+        }
+      ],
+      "__typename": "SearchResultItemConnection"
+    }
+  }
+}
