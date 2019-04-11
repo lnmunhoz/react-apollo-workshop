@@ -120,4 +120,8 @@ function SearchAppBar({ classes, onSearch, searchText }) {
   );
 }
 
+SearchAppBar.defaultProps = {
+  onSearch: () => {}
+};
+
 export default withStyles(styles)(SearchAppBar);
