@@ -26,20 +26,17 @@ const StarRepo = ({ repoId, starsCount }) => (
         icon={<Stars />}
         onClick={async () => {
           await starRepoFn({
-            update: (cache, { data }) => {
-              cache.writeFragment({
-                id: repoId,
-                fragment: REPOSITORY_FIELDS,
-                data: data.addStar.starrable
-              });
-            },
             optimisticResponse: {
               addStar: {
                 __typename: "AddStarPayload",
                 starrable: {
+                  __typename: "Repository",
                   id: repoId,
                   viewerHasStarred: true,
-                  __typename: "Repository"
+                  stargazers: {
+                    __typename: "StargazerConnection",
+                    totalCount: starsCount + 1
+                  }
                 }
               }
             },
@@ -62,20 +59,16 @@ const UnstarRepo = ({ repoId, starsCount }) => (
         icon={<Stars />}
         onClick={async () => {
           await unstarRepo({
-            update: (cache, { data }) => {
-              console.log(data);
-              cache.writeFragment({
-                id: repoId,
-                fragment: REPOSITORY_FIELDS,
-                data: data.removeStar.starrable
-              });
-            },
             optimisticResponse: {
               removeStar: {
                 __typename: "RemoveStarPayload",
                 starrable: {
                   id: repoId,
                   viewerHasStarred: false,
+                  stargazers: {
+                    __typename: "StargazerConnection",
+                    totalCount: starsCount - 1
+                  },
                   __typename: "Repository"
                 }
               }
