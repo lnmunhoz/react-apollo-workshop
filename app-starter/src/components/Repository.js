@@ -8,10 +8,7 @@ import {
   Typography
 } from "@material-ui/core";
 import Stars from "@material-ui/icons/Stars";
-import { gql } from "apollo-boost";
 import React from "react";
-import { Mutation } from "react-apollo";
-import { RepositoryFields } from "../App";
 
 export default function Repository({ repo }) {
   return (
