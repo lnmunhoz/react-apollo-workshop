@@ -87,7 +87,7 @@ query {
 }
 ```
 
-### 5. How to add variables
+### 5. Passing arguments to the query:
 
 ```graphql
 query SearchRepositories($query: String!) {
@@ -108,5 +108,343 @@ query SearchRepositories($query: String!) {
       }
     }
   }
+}
+```
+
+### 6. Let's implement the search feature:
+
+```jsx
+function SearchRepos({ searchText }) {
+  return (
+    <Query
+      variables={{
+        query: searchText
+      }}
+      query={gql`
+        query SearchRepositories($query: String!) {
+          search(first: 10, type: REPOSITORY, query: $query) {
+            nodes {
+              __typename
+              ... on Repository {
+                id
+                name
+                viewerHasStarred
+                stargazers {
+                  totalCount
+                }
+                owner {
+                  avatarUrl
+                  login
+                }
+              }
+            }
+          }
+        }
+      `}
+    >
+      {({ data, loading, error }) => {
+        if (loading) return <Loader />;
+        if (error) return <p>{error.message}</p>;
+
+        return (
+          <List>
+            {data.search.nodes.map(repo => (
+              <Repository repo={repo} />
+            ))}
+          </List>
+        );
+      }}
+    </Query>
+  );
+}
+
+function App() {
+  const [searchText, setSearchText] = useState("react");
+
+  return (
+    <Layout>
+      <SearchBar
+        searchText={searchText}
+        onSearch={text => {
+          console.log(text);
+          setSearchText(text);
+        }}
+      />
+
+      <SearchRepos searchText={searchText} />
+    </Layout>
+  );
+}
+```
+
+### 7. Let's Implement Star and Unstar
+
+```jsx
+import {
+  Avatar,
+  Chip,
+  ListItem,
+  ListItemAvatar,
+  ListItemSecondaryAction,
+  ListItemText,
+  Typography
+} from "@material-ui/core";
+import Stars from "@material-ui/icons/Stars";
+import { gql } from "apollo-boost";
+import React from "react";
+import { Mutation } from "react-apollo";
+
+function StarRepo({ repoId, totalCount }) {
+  return (
+    <Mutation
+      variables={{
+        repoId
+      }}
+      mutation={gql`
+        mutation addStar($repoId: ID!) {
+          addStar(input: { starrableId: $repoId }) {
+            starrable {
+              __typename
+              id
+              viewerHasStarred
+            }
+          }
+        }
+      `}
+    >
+      {addStar => (
+        <Chip
+          label={"Stars " + totalCount}
+          color="primary"
+          clickable
+          icon={<Stars />}
+          onClick={() =>
+            addStar({
+              variables: {
+                repoId
+              }
+            })
+          }
+        />
+      )}
+    </Mutation>
+  );
+}
+
+function UnstarRepo({ repoId, totalCount }) {
+  return (
+    <Mutation
+      variables={{
+        repoId
+      }}
+      mutation={gql`
+        mutation removeStar($repoId: ID!) {
+          removeStar(input: { starrableId: $repoId }) {
+            starrable {
+              __typename
+              id
+              viewerHasStarred
+            }
+          }
+        }
+      `}
+    >
+      {removeStar => (
+        <Chip
+          label={"Unstar " + totalCount}
+          clickable
+          icon={<Stars />}
+          onClick={() =>
+            removeStar({
+              variables: {
+                repoId
+              }
+            })
+          }
+        />
+      )}
+    </Mutation>
+  );
+}
+
+export default function Repository({ repo }) {
+  return (
+    <React.Fragment>
+      <ListItem alignItems="flex-start">
+        <ListItemAvatar>
+          <Avatar alt={repo.owner.login} src={repo.owner.avatarUrl} />
+        </ListItemAvatar>
+        <ListItemText
+          primary={repo.name}
+          secondary={
+            <React.Fragment>
+              <Typography component="span" color="textPrimary">
+                {repo.owner.login}
+              </Typography>
+            </React.Fragment>
+          }
+        />
+        <ListItemSecondaryAction>
+          {repo.viewerHasStarred ? (
+            <UnstarRepo
+              repoId={repo.id}
+              totalCount={repo.stargazers.totalCount}
+            />
+          ) : (
+            <StarRepo
+              repoId={repo.id}
+              totalCount={repo.stargazers.totalCount}
+            />
+          )}
+        </ListItemSecondaryAction>
+      </ListItem>
+    </React.Fragment>
+  );
+}
+```
+
+### 8. Adding Optimistic Response
+
+```jsx
+import {
+  Avatar,
+  Chip,
+  ListItem,
+  ListItemAvatar,
+  ListItemSecondaryAction,
+  ListItemText,
+  Typography
+} from "@material-ui/core";
+import Stars from "@material-ui/icons/Stars";
+import { gql } from "apollo-boost";
+import React from "react";
+import { Mutation } from "react-apollo";
+
+function StarRepo({ repoId, totalCount }) {
+  return (
+    <Mutation
+      variables={{
+        repoId
+      }}
+      optimisticResponse={{
+        addStar: {
+          starrable: {
+            __typename: "Repository",
+            id: repoId,
+            viewerHasStarred: true
+          },
+          __typename: "AddStarPayload"
+        }
+      }}
+      mutation={gql`
+        mutation addStar($repoId: ID!) {
+          addStar(input: { starrableId: $repoId }) {
+            starrable {
+              __typename
+              id
+              viewerHasStarred
+            }
+          }
+        }
+      `}
+    >
+      {addStar => (
+        <Chip
+          label={"Stars " + totalCount}
+          color="primary"
+          clickable
+          icon={<Stars />}
+          onClick={() =>
+            addStar({
+              variables: {
+                repoId
+              }
+            })
+          }
+        />
+      )}
+    </Mutation>
+  );
+}
+
+function UnstarRepo({ repoId, totalCount }) {
+  return (
+    <Mutation
+      variables={{
+        repoId
+      }}
+      optimisticResponse={{
+        removeStar: {
+          starrable: {
+            __typename: "Repository",
+            id: repoId,
+            viewerHasStarred: false
+          },
+          __typename: "RemoveStarPayload"
+        }
+      }}
+      mutation={gql`
+        mutation removeStar($repoId: ID!) {
+          removeStar(input: { starrableId: $repoId }) {
+            starrable {
+              __typename
+              id
+              viewerHasStarred
+            }
+          }
+        }
+      `}
+    >
+      {removeStar => (
+        <Chip
+          label={"Unstar " + totalCount}
+          clickable
+          icon={<Stars />}
+          onClick={() =>
+            removeStar({
+              variables: {
+                repoId
+              }
+            })
+          }
+        />
+      )}
+    </Mutation>
+  );
+}
+
+export default function Repository({ repo }) {
+  return (
+    <React.Fragment>
+      <ListItem alignItems="flex-start">
+        <ListItemAvatar>
+          <Avatar alt={repo.owner.login} src={repo.owner.avatarUrl} />
+        </ListItemAvatar>
+        <ListItemText
+          primary={repo.name}
+          secondary={
+            <React.Fragment>
+              <Typography component="span" color="textPrimary">
+                {repo.owner.login}
+              </Typography>
+            </React.Fragment>
+          }
+        />
+        <ListItemSecondaryAction>
+          {repo.viewerHasStarred ? (
+            <UnstarRepo
+              repoId={repo.id}
+              totalCount={repo.stargazers.totalCount}
+            />
+          ) : (
+            <StarRepo
+              repoId={repo.id}
+              totalCount={repo.stargazers.totalCount}
+            />
+          )}
+        </ListItemSecondaryAction>
+      </ListItem>
+    </React.Fragment>
+  );
 }
 ```
