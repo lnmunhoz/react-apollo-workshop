@@ -71,6 +71,11 @@ Start the app
 npm start
 ```
 
+## Learn more
+
+- https://www.howtographql.com
+- https://www.apollographql.com/docs
+
 ## License
 
 MIT
