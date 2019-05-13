@@ -22,7 +22,7 @@ export default function Repository({ repo }) {
         __typename: "AddStarPayload",
         starrable: {
           __typename: "Repository",
-          id: repo.id,
+          ...repo,
           viewerHasStarred: true,
           stargazers: {
             __typename: "StargazerConnection",
@@ -41,7 +41,7 @@ export default function Repository({ repo }) {
       removeStar: {
         __typename: "RemoveStarPayload",
         starrable: {
-          id: repo.id,
+          ...repo,
           viewerHasStarred: false,
           stargazers: {
             __typename: "StargazerConnection",

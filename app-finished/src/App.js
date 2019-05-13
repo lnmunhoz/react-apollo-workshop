@@ -9,6 +9,7 @@ import { SEARCH_QUERY } from "./graphql";
 
 const SearchRepos = ({ searchText }) => {
   const { data, loading, error } = useQuery(SEARCH_QUERY, {
+    fetchPolicy: "network-only",
     variables: {
       query: searchText
     }
@@ -16,12 +17,15 @@ const SearchRepos = ({ searchText }) => {
 
   if (loading) return <Loader />;
   if (error) return <p>{error.message}</p>;
+  const nodes = data.search.nodes;
 
   return (
     <List style={{ padding: 20 }}>
-      {data.search.nodes.map(repo => (
-        <Repository key={repo.id} repo={repo} />
-      ))}
+      {nodes.length > 0 ? (
+        nodes.map(repo => <Repository key={repo.id} repo={repo} />)
+      ) : (
+        <p>No results</p>
+      )}
     </List>
   );
 };
