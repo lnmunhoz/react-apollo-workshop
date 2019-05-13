@@ -1,4 +1,8 @@
-## Step by Step
+## Server Tutorial
+
+[Access this sandbox](https://codesandbox.io/s/m9z25zvmrp) for the server lesson.
+
+## Client Tutorial
 
 ### 1. Generate a new access token:
 
